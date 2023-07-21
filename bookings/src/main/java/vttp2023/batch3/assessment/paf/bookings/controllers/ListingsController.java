@@ -7,12 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import vttp2023.batch3.assessment.paf.bookings.models.Reservation;
+import vttp2023.batch3.assessment.paf.bookings.models.Booking;
 import vttp2023.batch3.assessment.paf.bookings.models.Search;
 import vttp2023.batch3.assessment.paf.bookings.models.SearchResult;
 import vttp2023.batch3.assessment.paf.bookings.services.ListingsService;
@@ -49,20 +50,29 @@ public class ListingsController {
 			return mav;
 		} 
 
-		List<SearchResult> results = (List<SearchResult>) session.getAttribute("results");
-		String country = (String) session.getAttribute("country");
-
-		if (results == null) {
-			results = listingsService.findAccomodations(search);
-		}
-
-		if (country == null) {
-			country = search.getCountry();
-		}
+		List<SearchResult> results = listingsService.findAccomodations(search);
+		String country = search.getCountry();
 		
 		mav.setViewName("view2");
 		mav.addObject("country", search.getCountry());
 		mav.addObject("results", results);
+		session.setAttribute("country", country);
+		session.setAttribute("results", results);
+		return mav;
+	}
+
+	@GetMapping(path = "/back")
+	public ModelAndView backToResults(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView();
+
+		String country = (String) session.getAttribute("country");
+		List<SearchResult> results = (List<SearchResult>) session.getAttribute("results");
+
+		mav.setViewName("view2");
+		mav.addObject("country", country);
+		mav.addObject("results", results);
+
 		return mav;
 	}
 
@@ -73,7 +83,11 @@ public class ListingsController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("view3");
 		mav.addObject("details", listingsService.findDetailsById(id));
-		mav.addObject("reservation", new Reservation());
+
+		Booking booking = new Booking();
+		booking.setAccId(id);
+
+		mav.addObject("booking", booking);
 
 		System.out.println(listingsService.findDetailsById(id));
 
@@ -81,6 +95,23 @@ public class ListingsController {
 	}
 
 	//TODO: Task 5
+	@PostMapping(path = "/booking")
+	public ModelAndView createBooking(Booking booking) {
 
+		ModelAndView mav = new ModelAndView();
 
+		System.out.println("\n\n" + booking.getAccId() + "\n\n");
+
+		Boolean createSuccess = listingsService.createBooking(booking);
+
+		if (createSuccess) {
+			mav.setViewName("view4");
+			mav.addObject("reference", booking.getId());
+			return mav;
+		}
+
+		mav.setViewName("view3");
+		mav.addObject("error", "Booking failed");
+		return mav;
+	}	
 }

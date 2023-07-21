@@ -7,7 +7,7 @@
     </head>
     <body>
         <div>
-            <form action="#" method="GET" th:action="@{/search}">
+            <form action="#" method="GET" th:action="@{/list}">
                 <button type="submit">Back</button>
             </form>
         </div>
@@ -49,7 +49,8 @@
         </div>
         <br>
         <div>
-            <form action="#" method="POST" th:action="@{/reservation}" th:object="${reservation}">
+            <form action="#" method="POST" th:action="@{/booking}" th:object="${booking}">
+                <input type="hidden" th:field="*{accId}">
                 <div>
                     Name:
                     &emsp;
@@ -71,6 +72,9 @@
                     &nbsp;
                     <input type="text" th:field="*{duration}">
                     days
+                </div>
+                <div>
+                    <button type="submit">Book</button>
                 </div>
             </form>
         </div>
