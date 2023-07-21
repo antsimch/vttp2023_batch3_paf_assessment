@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+            <form action="#" method="GET" th:action="@{/search}">
+                <button type="submit">Back</button>
+            </form>
+        </div>
+
+        <div>
+            <table border="1" th:object="${details}">
+                <tr>
+                    <td>Id:</td>
+                    <td th:text="*{id}"></td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td th:text="*{description}"></td>
+                </tr>
+                <tr>
+                    <td>Image:</td>
+                    <td>
+                        <img width="500" th:src="*{image}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td th:text="*{address}"></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td th:text="*{price}"></td>
+                </tr>
+                <tr>
+                    <td>Amenities:</td>
+                    <td th:text="*{amenities}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <hr>
+        <div>
+            <h1>Bookings</h1>
+        </div>
+        <br>
+        <div>
+            <form action="#" method="POST" th:action="@{/reservation}" th:object="${reservation}">
+                <div>
+                    Name:
+                    &emsp;
+                    <input type="text" th:field="*{name}" placeholder="Your Name">
+                </div>
+                <div>
+                    Email:
+                    &emsp;
+                    <input type="text" th:field="*{email}" placeholder="Your Email">
+                </div>
+                <div>
+                    Arrival:
+                    &ensp;
+                    <input type="date" th:field="*{arrivalDate}">
+                </div>
+                <div>
+                    Stay:
+                    &emsp;
+                    &nbsp;
+                    <input type="text" th:field="*{duration}">
+                    days
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

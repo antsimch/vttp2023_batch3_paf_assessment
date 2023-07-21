@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+            <h1>Listings for <span th:text="${country}"></span></h1>
+        </div>
+
+        <div>
+            <form action="#" method="GET" th:action="@{/}">
+                <button type="submit">Back</button>
+            </form>
+        </div>
+
+        <div>
+            <table border="1">
+                <thead>
+                    <th>Address</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr th:each="result : ${results}">
+                        <td th:text="${result.address}"></td>
+                        <td th:text="${result.price}"></td>
+                        <td>
+                            <img width="200" th:src="${result.image}">
+                        </td>
+                        <td>
+                            <form action="#" method="GET" th:action="@{/} + ${result.id}">
+                                <button type="submit">Details</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

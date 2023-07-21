@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+            <h1>Search Our Accomodations</h1>
+        </div>
+        <br>
+        <div>
+            <form action="#" method="GET" th:action="@{/search}" th:object="${search}">
+                <div>
+                    Country:
+                    &emsp;
+                    &emsp;
+                    &emsp;
+                    &emsp;
+                    <select th:field="*{country}">
+                        <option th:each="country : ${countries}" th:value="${country}" th:text="${country}"></option>
+                    </select>
+                    <span th:errorclass="error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+                </div>
+                <div>
+                    Number of person:
+                    &emsp;
+                    <input type="number" th:field="*{numberOfPerson}">
+                    <span th:errorclass="error" th:if="${#fields.hasErrors('numberOfPerson')}" th:errors="*{numberOfPerson}"></span>
+                </div>
+                <div>
+                    Price Range:
+                    &emsp;
+                    &emsp;
+                    &emsp;
+                    Min:
+                    &ensp;
+                    <input type="number" th:field="*{priceRangeMin}">
+                    &emsp;
+                    Max:
+                    &ensp;
+                    <input type="number" th:field="*{priceRangeMax}">
+                    <br>
+                    <span th:errorclass="error" th:if="${#fields.hasErrors('priceRangeMin')}" th:errors="*{priceRangeMin}"></span>
+                    <span th:errorclass="error" th:if="${#fields.hasErrors('priceRangeMax')}" th:errors="*{priceRangeMax}"></span>
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </body>
+</html>
